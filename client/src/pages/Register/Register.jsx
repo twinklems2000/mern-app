@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,15 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [disable, setDisable] = useState();
+
+  useEffect(() => {
+    if (user.name === "" || user.email === "" || user.password === "") {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  }, [user]);
 
   const handleRegister = async () => {
     try {
@@ -67,7 +76,12 @@ const Register = () => {
         <button
           type="submit"
           onClick={handleRegister}
-          className="font-semibold focus:outline-none bg-violet-800 text-white rounded-lg p-2 font-sans my-4 hover:bg-inherit hover: outline-none hover:ring hover:ring-violet-400 hover:text-violet-900 hover:border-violet-800 hover:border-2"
+          disabled={disable}
+          className={
+            !disable
+              ? "bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 my-4 rounded-full cursor-pointer"
+              : "bg-indigo-500 text-white  py-2 px-4 my-4 rounded-full opacity-90 cursor-not-allowed"
+          }
         >
           Register
         </button>
